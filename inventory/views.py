@@ -18,3 +18,9 @@ def product_detail(request, slug):
     product = get_object_or_404(Product, slug=slug, in_stock=True)
     # This get_object_or_404 (we need to pass the model and the filters or requirements) as we gave here
     return render(request, "inventory/products/detail.html", {'product':product})
+
+def category_list(request, category_slug):
+    category = get_object_or_404(Category, slug=category_slug)
+    products = Product.objects.filter(category=category)
+    return render(request, "inventory/products/category.html",
+                  {"category":category, "products":products})
