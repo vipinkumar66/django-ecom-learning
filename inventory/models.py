@@ -10,6 +10,9 @@ class Category(models.Model):
         # Just to provide the additional info about the data points
         verbose_name_plural = "Categories"
 
+    def get_absolute_url(self):
+        return reverse("store:product_detail", args=[self.slug])
+
     def __str__(self):
         # To represent the data properly
         return self.name
