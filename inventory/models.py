@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.urls import reverse
 
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True)
@@ -35,6 +35,13 @@ class Product(models.Model):
     class Meta:
         verbose_name_plural = "products"
         ordering = ("-created",) #last item that is added is returned first and this can be written as tuples or list
+
+    def get_absolute_url(self):
+        """
+        The reverse function helps to generate the url for the given view, here it takes the
+        url name and additonaly we can pass the args that we want to attach in the url
+        """
+        return reverse("store:product_detail", args=[self.slug])
 
     def __str__(self):
         return self.title
