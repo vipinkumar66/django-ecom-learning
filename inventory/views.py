@@ -1,12 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
 
-def get_categories(request):
-    """
-    This one is used in the context in the settings
-    """
-    return {"categories": Category.objects.all()}
-
 def all_products(request):
     """
     Here the context is directly passed to the templates and than used
