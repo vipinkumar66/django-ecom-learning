@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+class ProductManager(models.Manager):
+    def get_queryset(self):
+        return super(ProductManager, self).get_queryset().filter(is_active=True)
+
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True)
     slug = models.SlugField(max_length=255, unique=True)
@@ -34,6 +38,14 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
+    products = ProductManager()
+    # Here the product manager is going to get only active products where as the objects
+    # Is going to get all the products irrespective of whether they are active or not
+    """
+    It is always better to make our models fatty(add more functionality here ) and keep the views thin
+    by adding as less functionlaity we want to
+    """
 
     class Meta:
         verbose_name_plural = "products"

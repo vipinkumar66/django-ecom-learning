@@ -5,7 +5,8 @@ def all_products(request):
     """
     Here the context is directly passed to the templates and than used
     """
-    products = Product.objects.all()
+    # products = Product.objects.filter(is_active=True)
+    products = Product.products.all() #because here are handling it using the model manager
     return render(request, "inventory/home.html", {"products":products})
 
 def product_detail(request, slug):
