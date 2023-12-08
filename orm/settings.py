@@ -47,6 +47,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'inventory.context_processors.get_categories',
+                'basket.context_processors.basket',
             ],
         },
     },
