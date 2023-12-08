@@ -6,7 +6,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include("inventory.urls", namespace="store"))
+    path("", include("inventory.urls", namespace="store")),
+    path("basket/", include("basket.urls", namespace="basket"))
 ]
 if settings.DEBUG == True:
     # This is only used for the development environment and not the production one
