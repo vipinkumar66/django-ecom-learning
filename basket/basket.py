@@ -7,5 +7,13 @@ class Basket:
         self.session = request.session
         basket = self.session.get("session_key")
         if "session_key" not in request.session:
-            basket = self.session["session_key"] = {"number":12345}
+            basket = self.session["session_key"] = {}
         self.basket = basket
+
+    def add(self, product, qty):
+        product_id = product.id
+        if product_id not in self.basket:
+            self.basket['product_id'] = {"price": str(product.price),
+                                         "qty":qty}
+
+        self.session.modified = True

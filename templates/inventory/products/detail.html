@@ -10,7 +10,8 @@
                     <img class="img-fluid mx-auto d-block" width="200px" alt="Responsive image" src="{{ product.image.url }}">
                 </div>
                 <div class="col-md-7 col-lg-7 ps-md-3 ps-lg-5">
-                    <h1 class="mb-0 h4">{{product.title}}
+                    <h1 class="mb-0 h4">{{product.title}}</h1>
+
                         <p><span class="lead">{{ product.author }}</span>- {Author}</p>
                         <p>{{ product.description|slice:":355"}}...</p>
                         <div class="border">
@@ -25,19 +26,39 @@
                                     <div class="col-6">
                                         <label for="select">Qty</label>
                                         <select id="select">
-                                            <option value="">1</option>
-                                            <option value="">2</option>
-                                            <option value="">3</option>
-                                            <option value="">4</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
                                         </select>
                                     </div>
-                                    <div class="col-6 text-end"><button type="button" class="btn btn-secondary brn-sm">Add to basket</button></div>
+                                    <div class="col-6 text-end">
+                                        <button type="button" id="basket_button" value="{{product.id}}" class="btn btn-secondary brn-sm">Add to basket</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </h1>
                 </div>
             </div>
         </main>
     </div>
+    <script>
+        $(document).on("click", "#basket_button", function (e){
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: "{%url 'basket:basket_add'%}",
+                data:{
+                    productid: $('#basket_button').val(),
+                    productqty: $('#select option:selected').text(),
+                    csrfmiddlewaretoken: "{{csrf_token}}",
+                    action:"post"
+                },
+                success:function (json){
+                    document.getElementById("product_qty").innerHTML = json.qty
+                },
+                error: function (xhr, errmsg, err){}
+            })
+        })
+    </script>
 {% endblock %}
