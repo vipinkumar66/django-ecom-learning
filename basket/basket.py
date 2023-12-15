@@ -1,3 +1,6 @@
+from decimal import Decimal
+from inventory.models import Product
+
 class Basket:
     """
     A base Basket class providing some default
@@ -24,3 +27,21 @@ class Basket:
 
     def __len__(self):
         return sum(item["qty"] for item in self.basket.values())
+
+    def __iter__(self):
+        """
+            The session has the data but we cannot iterate over the session
+            we have to iter over the database
+        """
+        product_ids = self.basket.keys()
+        products = Product.products.filter(id__in=product_ids)
+        basket = self.basket.copy() #Since we need to add some more data that we
+        # dont want to get added in the main session data
+
+        for product in products:
+            basket[str(product.id)]["product"] = product
+
+        for item in basket.values():
+            item["price"] = Decimal((item["price"]))
+            item["total_price"] = item["price"] * item["qty"]
+            yield item
