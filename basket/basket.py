@@ -13,18 +13,6 @@ class Basket:
             basket = self.session['skey'] = {}
         self.basket = basket
 
-    def add(self, product, qty):
-        """
-        Adding and updating the users basket session data
-        """
-        product_id = str(product.id)
-
-        if product_id in self.basket:
-            self.basket[product_id]['qty'] += qty
-        else:
-            self.basket[product_id] = {'price': str(product.price), 'qty': qty}
-        self.save()
-
     def __len__(self):
         return sum(item["qty"] for item in self.basket.values())
 
@@ -46,6 +34,18 @@ class Basket:
             item["total_price"] = item["price"] * item["qty"]
             yield item
 
+    def add(self, product, qty):
+        """
+        Adding and updating the users basket session data
+        """
+        product_id = str(product.id)
+
+        if product_id in self.basket:
+            self.basket[product_id]['qty'] += qty
+        else:
+            self.basket[product_id] = {'price': str(product.price), 'qty': qty}
+        self.save()
+
     def delete(self, product):
         product_id = str(product)
         print(product_id, "Product_id")
@@ -55,6 +55,13 @@ class Basket:
 
     def get_total_price(self):
         return sum(item["total_price"] for item in self.basket.values())
+
+    def update(self, productid, product_qty):
+        product_id = str(productid)
+
+        if product_id in self.basket:
+            self.basket[product_id]["qty"] = product_qty
+        self.save()
 
     def save(self):
         self.session.modified = True
