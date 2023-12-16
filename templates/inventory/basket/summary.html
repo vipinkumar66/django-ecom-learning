@@ -41,7 +41,7 @@
                   Update
                 </button>
                 <button type="button" id="delete-button" data-index="{{product.id}}"
-                  class="btn btn-outline-secondary btn-sm delete-button">
+                  class="btn btn-outline-secondary btn-sm delete-button" value="{{product.id}}">
                   Delete
                 </button>
               </div>
@@ -59,6 +59,24 @@
 </main>
 
 <script>
+  $(document).on("click", "#delete-button", function (e){
+            e.preventDefault();
+            var prodId = $(this).data("index");
+            $.ajax({
+                type: "POST",
+                url: "{%url 'basket:basket_delete'%}",
+                data:{
+                    productid: $(this).data("index"),
+                    csrfmiddlewaretoken: "{{csrf_token}}",
+                    action:"post"
+                },
+                success:function (json){
+                  console.log(prodId);
+                  $(`.product-item[data-index=${prodId}]`).remove();
+                },
+                error: function (xhr, errmsg, err){}
+            })
+        })
 
 </script>
 

@@ -23,7 +23,7 @@ class Basket:
             self.basket[product_id]['qty'] += qty
         else:
             self.basket[product_id] = {'price': str(product.price), 'qty': qty}
-        self.session.modified = True
+        self.save()
 
     def __len__(self):
         return sum(item["qty"] for item in self.basket.values())
@@ -45,3 +45,16 @@ class Basket:
             item["price"] = Decimal((item["price"]))
             item["total_price"] = item["price"] * item["qty"]
             yield item
+
+    def delete(self, product):
+        product_id = str(product)
+        print(product_id, "Product_id")
+        if product_id in self.basket:
+            del self.basket[product_id]
+        self.save()
+
+    def get_total_price(self):
+        return sum(item["total_price"] for item in self.basket.values())
+
+    def save(self):
+        self.session.modified = True
