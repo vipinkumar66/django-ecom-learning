@@ -28,7 +28,6 @@ class Basket:
 
         for product in products:
             basket[str(product.id)]["product"] = product
-
         for item in basket.values():
             item["price"] = Decimal((item["price"]))
             item["total_price"] = item["price"] * item["qty"]
@@ -54,7 +53,7 @@ class Basket:
         self.save()
 
     def get_total_price(self):
-        return sum(item["total_price"] for item in self.basket.values())
+         return sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
 
     def update(self, productid, product_qty):
         product_id = str(productid)

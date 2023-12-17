@@ -74,6 +74,8 @@
                 success:function (json){
                   console.log(prodId);
                   $(`.product-item[data-index=${prodId}]`).remove();
+                  document.getElementById("basket-qty").innerHTML = json.qty;
+                  document.getElementById("subtotal").innerHTML = json.subtotal
                 },
                 error: function (xhr, errmsg, err){}
             })

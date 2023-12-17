@@ -55,7 +55,8 @@
                     action:"post"
                 },
                 success:function (json){
-                    document.getElementById(" product_qty").innerHTML = json.qty
+                    document.getElementById("basket-qty").innerHTML = json.qty
+
                 },
                 error: function (xhr, errmsg, err){}
             })
