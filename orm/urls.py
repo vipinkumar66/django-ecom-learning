@@ -12,3 +12,4 @@ urlpatterns = [
 if settings.DEBUG == True:
     # This is only used for the development environment and not the production one
     urlpatterns += static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
+
